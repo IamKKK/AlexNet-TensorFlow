@@ -33,11 +33,12 @@ validation_data = load_pascal_voc.load_pascal_voc_classification(pascal_voc_path
 # Parameters
 learning_rate = 0.005
 training_iters = 300000
-batch_size = 8
-display_step = 200
+batch_size = 64
+display_step = 20
 size = 224
 n_classes = 20 
 dropout = 0.5 # Dropout, probability to keep units
+BN_bool = True # Optional Batch Normalization
 
 def read_images_from_disk(input_queue):
     """Consumes a single filename and label as a ' '-delimited string.
@@ -75,7 +76,7 @@ def preprocess_image(img, size, colour):
     if not colour:
     	img = tf.image.rgb_to_grayscale(img)
 
-    img = tf.image.per_image_standardization(img)
+    # img = tf.image.per_image_standardization(img)
     return img
 
 colour = True
@@ -98,7 +99,7 @@ y = tf.placeholder(tf.float32, [None, n_classes])
 keep_prob = tf.placeholder(tf.float32) # Dropout (keep probability)
 
 # Construct model
-pred = conv_net.alex_net(x, n_classes, keep_prob)
+pred = conv_net.alex_net(x, n_classes, keep_prob, BN_bool)
 pred = tf.reshape(pred, [-1, n_classes])
 
 # Define loss and optimizer

@@ -39,8 +39,8 @@ def load_pascal_voc_classification(full_path, text_files_dir, image_files_dir):
 		# Put all of it into the list of tuples 
 		# First element is the image name, second element is the one hot vector representation
 		for element in arr:
-			one_hot = [0.] * 20
-			one_hot[num_classes - 1] = 1.
+			one_hot = [0] * 20
+			one_hot[num_classes - 1] = 1
 			image_classification_list.append([element, one_hot])
 
 	num_classes = 0
